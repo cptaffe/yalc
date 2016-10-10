@@ -13,7 +13,7 @@ _start:
   */
   /* main(argc, argv) */
   movq %rsp, %rbp
-  push $0
+  push $0 /* top frame segfaults */
   movq (%rbp), %rdi
   leaq 8(%rbp), %rsi
   call main
@@ -26,25 +26,14 @@ _start:
   .globl exit
   .type exit,@function
 exit:
-  push %rbp
-  movq %rsp, %rbp
-
   movq $60, %rax
   syscall
-
-  /* error: exit() returned */
-  pop %rbp
-  ret
+  ret /* error */
 
   .text
   .globl write
   .type write,@function
 write:
-  push %rbp
-  movq %rsp, %rbp
-
   movq $1, %rax
   syscall
-
-  pop %rbp
   ret
