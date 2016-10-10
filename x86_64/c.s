@@ -19,6 +19,7 @@ _start:
   call main
 
   /* panic code */
+  movq $1, %rdi
   call exit
 
   .text
